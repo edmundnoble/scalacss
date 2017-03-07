@@ -112,7 +112,12 @@ object StringRenderer {
                     end     : ()                        => Unit) = {
     start()
     kv("font-family", fontface.fontFamily, true)
-    kv("src", fontface.src.toStream.mkString(","), false)
+    val fontfaceSrc =
+      if (fontface.src.tail.isEmpty)
+        fontface.src.head
+      else
+        fontface.src.head + "," + fontface.src.tail.mkString(",")
+    kv("src", fontfaceSrc, false)
     for (v <- fontface.fontStretch ) kv("font-stretch" , v         , false)
     for (v <- fontface.fontStyle   ) kv("font-style"   , v         , false)
     for (v <- fontface.fontWeight  ) kv("font-weight"  , v         , false)
